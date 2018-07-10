@@ -7,20 +7,29 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.tayyab.lostandfoundapp.InterfaceService.UserClient;
+import com.example.tayyab.lostandfoundapp.models.Dummy;
 import com.example.tayyab.lostandfoundapp.models.Post;
+import com.example.tayyab.lostandfoundapp.models.SampleModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -30,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager layoutManager;
+    ArrayList<Customfeeditem> SampleListData;
 
     List<Post> postList;
 
@@ -79,14 +89,49 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-        recyclerView = findViewById(R.id.recycleViewContainer);
+        /*recyclerView = findViewById(R.id.recyclerLostFound);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);*/
+
+        SampleListData = new ArrayList<>();
+
+        for (int i = 0; i < 100; i++) {
+            SampleListData.add(new Customfeeditem(i, "username " + i, "description http://badboyroy.com/wp-content/uploads/2014/09/image-placeholder-940x470-940x470.jpg" + i, true, "http://badboyroy.com/wp-content/uploads/2014/09/image-placeholder-940x470-940x470.jpg", "http://badboyroy.com/wp-content/uploads/2014/09/image-placeholder-940x470-940x470.jpg"));
+        }
+
+        RecyclerView recyclerLostFound = findViewById(R.id.recyclerLostFound);
+
+        recyclerLostFound.setAdapter(new CustomfeedAdapter(SampleListData));
 
 
-        mAdapter = new CustomfeedAdapter(this, postList);
-        recyclerView.setAdapter(mAdapter);
+
+        UserClient CustomerService = ServiceGenerator.createService(UserClient.class);
+//        Customer c = new Customer(7, "tttttttttttttttttttt", "tttt");
+
+        Dummy dummy = new Dummy(1, 1, "wwwwwwwwwwwwwwww", "assssssssssssssssss");
+
+        Call<Dummy> dummycall = CustomerService.updateDummy(1, dummy);
+
+        dummycall.enqueue(new Callback<Dummy>() {
+            @Override
+            public void onResponse(Call<Dummy> call, Response<Dummy> response) {
+                Log.d("MTAG", "onResponse: ");
+                String s = ";";
+            }
+
+            @Override
+            public void onFailure(Call<Dummy> call, Throwable t) {
+                Log.d("MTAG", "onFailure: ");
+            }
+        });
+
+
+
+
+
+
+        // recyclerLostFound.setLayoutManager(RecyclerView.LayoutManager);
 
 
 
