@@ -18,11 +18,14 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity">
-<!--            <intent-filter>
+
+            <!--
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity android:name=".PasswordResetActivity" />
         <activity android:name=".MyProfile">
@@ -52,6 +55,16 @@
         >
         ]]>
         <activity android:name=".SampleActivity">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".CommentsPost">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
