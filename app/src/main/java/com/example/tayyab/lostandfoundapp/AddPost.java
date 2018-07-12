@@ -6,11 +6,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+
+import com.example.tayyab.lostandfoundapp.InterfaceService.PostClient;
+import com.example.tayyab.lostandfoundapp.InterfaceService.UserClient;
+import com.example.tayyab.lostandfoundapp.models.Post;
+import com.example.tayyab.lostandfoundapp.models.User;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddPost extends AppCompatActivity  {
 
     private static final String TAG = "MTAG";
+    Button addPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +50,50 @@ public class AddPost extends AppCompatActivity  {
             }
         });
 
+        addPost = findViewById(R.id.btnPost);
+        addPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Post post = new Post(1,"","jhdijhdohadfdkjlf",1,1028);
+                sendNetworkRequest(post);
+            }
+        });
+
 
 
 
     }
+
+    private void sendNetworkRequest(Post post) {
+
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.15.170/LostFoundApi/api/")
+                .addConverterFactory(GsonConverterFactory.create());
+        Log.d("MTAG", "sendNetworkRequest: Successful");
+
+        Retrofit retrofit = builder.build();
+
+        PostClient client = retrofit.create(PostClient.class);
+
+        //????????????????????????????????????????????????????
+        Call<Post> call = client.AddPost(post);
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                Log.d(TAG, "onResponse: ");
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Log.d(TAG, "onFailure: ");
+            }
+        });
+
+    }
+
+
+
+
 
 }

@@ -14,8 +14,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.tayyab.lostandfoundapp.InterfaceService.PostClient;
 import com.example.tayyab.lostandfoundapp.InterfaceService.UserClient;
 import com.example.tayyab.lostandfoundapp.models.Dummy;
+import com.example.tayyab.lostandfoundapp.models.GetPostClass;
 import com.example.tayyab.lostandfoundapp.models.Post;
 import com.example.tayyab.lostandfoundapp.models.SampleModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +32,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -94,6 +98,8 @@ public class HomeActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);*/
 
+        sendNetworkRequest();
+
         SampleListData = new ArrayList<>();
 
         for (int i = 0; i < 100; i++) {
@@ -141,6 +147,32 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
+
+
+    private void sendNetworkRequest() {
+
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.15.170/LostFoundApi/api/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        Log.d("MTAG", "sendNetworkRequest: ");
+        PostClient client = retrofit.create(PostClient.class);
+        Call<GetPostClass> call = client.GetAllPosts();
+        call.enqueue(new Callback<GetPostClass>() {
+            @Override
+            public void onResponse(Call<GetPostClass> call, Response<GetPostClass> response) {
+                Log.d("MTAG", "onResponse: " + response.body().getReg());
+            }
+
+            @Override
+            public void onFailure(Call<GetPostClass> call, Throwable t) {
+                Log.d("MTAG", "onFailure: ");
+            }
+        });
+    }
+
 
     private void hometoHome(){
         startActivity(new Intent(HomeActivity.this, HomeActivity.class));
