@@ -9,11 +9,10 @@
     <string-array name="category">
         <item>Bag</item>
         <item>Keys</item>
-        <item>Mobile</item>
         <item>Laptop</item>
-        <item>Book</item>
-        <item>Notes</item>
-        <item>Student Card</item>
+        <item>Books</item>
+        <item>Mobile</item>
+        <item>Cards</item>
         <item>Others</item>
     </string-array>
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tayyab.lostandfoundapp.models.Post;
 import com.example.tayyab.lostandfoundapp.models.SampleModel;
@@ -19,9 +20,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomfeedAdapter extends RecyclerView.Adapter<CustomfeedAdapter.SampleViewHolder> {
+public class CustomfeedAdapter extends RecyclerView.Adapter<CustomfeedAdapter.SampleViewHolder>{
     ArrayList<Customfeeditem> SampleModelList;
-
     public CustomfeedAdapter(ArrayList<Customfeeditem> SampleModel) {
         this.SampleModelList = SampleModel;
     }
@@ -32,7 +32,6 @@ public class CustomfeedAdapter extends RecyclerView.Adapter<CustomfeedAdapter.Sa
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sample_feed_item_layout, parent, false);
         SampleViewHolder sampleViewHolder = new SampleViewHolder(view);
-
         return sampleViewHolder;
     }
 
@@ -43,6 +42,9 @@ public class CustomfeedAdapter extends RecyclerView.Adapter<CustomfeedAdapter.Sa
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context,CommentsPost.class);
+                context.startActivity(intent);
             }
         });
 
@@ -60,6 +62,7 @@ public class CustomfeedAdapter extends RecyclerView.Adapter<CustomfeedAdapter.Sa
 
     }
 
+
     @Override
     public int getItemCount() {
         return SampleModelList.size();
@@ -74,12 +77,11 @@ public class CustomfeedAdapter extends RecyclerView.Adapter<CustomfeedAdapter.Sa
         private ImageView imgviewUserImageUrl;
         private ImageView imgviewPostImageUrl;
 
-
         public SampleViewHolder(View itemView) {
             super(itemView);
-            Context context = itemView.getContext();
+            /*Context context = itemView.getContext();
             Intent intent = new Intent(context,CommentsPost.class);
-            context.startActivity(intent);
+            context.startActivity(intent);*/
 
             txtUsername = itemView.findViewById(R.id.txt_ProfileName);
 
