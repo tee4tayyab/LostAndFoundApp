@@ -1,8 +1,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:title="Post"
+        app:titleTextColor="@color/white"
+        tools:context=".MyActivity">
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:background="@color/transparent"
+            android:text="LOG OUT"
+            android:textColor="@color/grey"
+            android:textSize="12sp" />
+
+    </android.support.v7.widget.Toolbar>
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -17,7 +53,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/home" />
+            app:srcCompat="@drawable/profile" />
 
         <TextView
             android:id="@+id/txt_ProfileName"
@@ -25,7 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="16dp"
-            android:text="Profile Name"
+            android:text="Micheal Goerge"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.092"
             app:layout_constraintStart_toEndOf="@+id/imgSampleProfileImage"
@@ -38,8 +75,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textColor="#000000"
             android:contentDescription="Sample Description  Sample Desctin"
-            android:text="Sample Description  Sample Desctin"
+            android:text="I have Lost My Bag, Picture of Bag is given below !"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.025"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,13 +85,13 @@
 
         <ImageView
             android:id="@+id/imgviewPostPicture"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtDescription"
-            app:srcCompat="@android:color/holo_blue_dark" />
+            app:srcCompat="@drawable/bag" />
 
         <TextView
             android:id="@+id/txtLostFoundStatus"
@@ -78,9 +116,11 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="435dp"
-        android:layout_weight="1" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/custom_comment_layout" />
 
     <View
         android:layout_width="match_parent"
@@ -105,13 +145,15 @@
             android:textSize="16sp"
             android:maxLines="4"
             android:inputType="textMultiLine"
-            android:hint="Add a comment here" />
+            android:editable="false"
+            android:hint="Add a comment here"
+            />
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:id="@+id/send"
-            android:src="@drawable/ic_send_black_48dp"
+            android:src="@drawable/arrowsend"
             />
 
     </LinearLayout>

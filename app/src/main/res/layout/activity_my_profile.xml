@@ -7,6 +7,26 @@
 
     tools:context="com.example.tayyab.lostandfoundapp.MyProfile">
 
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimaryDark"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:context=".MyActivity">
+
+    </android.support.v7.widget.Toolbar>
+
 
 
 
@@ -14,45 +34,44 @@
         android:id="@+id/img_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/new_grad"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar2"
+        android:layout_marginTop="-8dp"
+        android:background="@color/colorPrimaryDark">
+
         <RelativeLayout
             android:id="@+id/img_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/circle_border"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="112dp"
-            android:layout_marginRight="112dp"
-            android:layout_marginLeft="112dp"
-            android:layout_marginEnd="112dp"
-            >
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/circle_border">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                app:civ_border_width="2dp"
-                app:civ_border_color="#FF000000"/>
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/profile"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
 
 
         </RelativeLayout>
+
         <TextView
             android:id="@+id/profile_fullname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_user"
             android:layout_centerHorizontal="true"
-            android:text="Full Name"
-            android:textColor="@color/white"
             android:layout_marginTop="15sp"
-            android:textSize="32sp"
             android:fontFamily="sans-serif-condensed"
-            />
+            android:text="Micheal Goerge"
+            android:textColor="@color/white"
+            android:textSize="32sp" />
 
 
     </RelativeLayout>
@@ -87,7 +106,7 @@
                     android:layout_width="300dp"
                     android:background="@color/transparent"
                     android:layout_height="wrap_content"
-                    android:text="User_Name"
+                    android:text="Micheal_Goerge"
                     android:inputType="none"
                     android:textColor="#000000"
                     android:textSize="13sp"
@@ -121,7 +140,7 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
-                    android:text="lostandfound@gmail.com"
+                    android:text="Micheal_goerge@gmail.com"
                     android:inputType="none"
                     android:textColor="#000000"
                     android:textSize="13sp"
@@ -153,7 +172,7 @@
                     android:id="@+id/profile_phone"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="123456272"
+                    android:text="+41 3421532565"
                     android:inputType="none"
                     android:background="@color/transparent"
 
@@ -188,7 +207,7 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
-                    android:text="Lahore,Pakistan"
+                    android:text="California, USA"
                     android:inputType="none"
                     android:textColor="#000000"
                     android:textSize="13sp"
@@ -242,5 +261,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="72dp" />
+
 
 </RelativeLayout>

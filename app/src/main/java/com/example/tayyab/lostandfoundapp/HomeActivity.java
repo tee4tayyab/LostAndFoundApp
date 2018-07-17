@@ -98,7 +98,7 @@ public class HomeActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);*/
 
-        sendNetworkRequest();
+/*        sendNetworkRequest();*/
 
         SampleListData = new ArrayList<>();
 
@@ -111,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerLostFound.setAdapter(new CustomfeedAdapter(SampleListData));
 
 
-
+/*
         UserClient CustomerService = ServiceGenerator.createService(UserClient.class);
 //        Customer c = new Customer(7, "tttttttttttttttttttt", "tttt");
 
@@ -130,10 +130,11 @@ public class HomeActivity extends AppCompatActivity {
             public void onFailure(Call<Dummy> call, Throwable t) {
                 Log.d("MTAG", "onFailure: ");
             }
-        });
+        });*/
 
 
-
+        Post updatedPost = new Post(1,null,"cbhvsdkiuhdp",1,4);
+        UpdateNetworkRequest(6,updatedPost);
 
 
 
@@ -148,12 +149,12 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-
+/*
     private void sendNetworkRequest() {
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.15.170/LostFoundApi/api/")
+                .baseUrl("http://192.168.10.19/LostFoundApi/api/")
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -163,7 +164,7 @@ public class HomeActivity extends AppCompatActivity {
         call.enqueue(new Callback<GetPostClass>() {
             @Override
             public void onResponse(Call<GetPostClass> call, Response<GetPostClass> response) {
-                Log.d("MTAG", "onResponse: " + response.body().getReg());
+                Log.d("MTAG", "onResponse: " + response.body().getReg().get(0));
             }
 
             @Override
@@ -171,7 +172,38 @@ public class HomeActivity extends AppCompatActivity {
                 Log.d("MTAG", "onFailure: ");
             }
         });
+    }*/
+
+
+
+
+    private void UpdateNetworkRequest(Integer id, Post post) {
+
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.10.19/LostFoundApi/api/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        Log.d("MTAG", "UpdateNetworkRequest: ");
+        PostClient client = retrofit.create(PostClient.class);
+        Call<Post> call = client.UpdatePost(id,post);
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                Log.d("MTAG", "onResponse:dsklkdjdhsdhlsdh "+ response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Log.d("MTAG", "onFailure: ");
+            }
+        });
     }
+
+
+
+
 
 
     private void hometoHome(){

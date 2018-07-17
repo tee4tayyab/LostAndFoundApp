@@ -94,6 +94,22 @@
                 android:backgroundTint="@color/colorPrimaryDark"/>
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:hint="Phone"
+            android:theme="@style/AppTheme">
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:backgroundTint="@color/colorPrimaryDark"/>
+        </android.support.design.widget.TextInputLayout>
+
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="fill_parent"

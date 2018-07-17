@@ -44,11 +44,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "MTAG";
     private FirebaseAuth mAuth;
-    EditText edtEmail, edtPassword, edtUserName, edtName;
+    EditText edtEmail, edtPassword, edtUserName, edtName,edtPhone;
     Button Register;
     public Boolean verify;
 
-    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword, inputlayoutusername;
+    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword, inputlayoutusername,inputLayoutPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +66,18 @@ public class RegisterActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.etPassword);
         edtName = findViewById(R.id.etName);
         edtUserName = findViewById(R.id.etUsername);
+        edtPhone = findViewById(R.id.etPhone);
         inputLayoutName = findViewById(R.id.edtName);
         inputlayoutusername = findViewById(R.id.edtUsername);
         inputLayoutEmail = findViewById(R.id.edtEmail);
         inputLayoutPassword = findViewById(R.id.edtPassword);
+        inputLayoutPhone = findViewById(R.id.edtPhone);
 //
         edtName.addTextChangedListener(new MyTextWatcher(edtName));
         edtUserName.addTextChangedListener(new MyTextWatcher(edtUserName));
         edtEmail.addTextChangedListener(new MyTextWatcher(edtEmail));
         edtPassword.addTextChangedListener(new MyTextWatcher(edtPassword));
+        edtPhone.addTextChangedListener(new MyTextWatcher(edtPhone));
 
 
         Register = findViewById(R.id.btnRegister);
@@ -294,6 +297,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         return true;
     }
+    private boolean validatePhone() {
+        if (edtPhone.getText().toString().trim().isEmpty()) {
+            inputLayoutPhone.setError("Enter Phone");
+            requestFocus(edtPhone);
+            return false;
+        } else {
+            inputLayoutPassword.setErrorEnabled(false);
+        }
+
+        return true;
+    }
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {
@@ -334,6 +348,11 @@ public class RegisterActivity extends AppCompatActivity {
                     requestFocus(edtPassword);
                     validatePassword();
                     break;
+                case R.id.etPhone:
+                    requestFocus(edtPhone);
+                    validatePhone();
+                    break;
+
             }
         }
 

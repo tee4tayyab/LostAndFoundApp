@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/grad_bg"
+        android:background="@color/colorPrimaryDark"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,6 +24,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
+        app:title="Home"
+        app:titleTextColor="@color/white"
         tools:context=".MyActivity">
 
         <Button
@@ -41,6 +43,7 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -56,32 +59,34 @@
         app:layout_constraintVertical_bias="0.0">
 
         <EditText
-            android:id="@+id/commenttext"
+            android:id="@+id/search_bar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
             android:hint="Search"
+            android:textColorHint="@color/colorPrimaryDark"
             android:inputType="text"
             android:paddingLeft="16dp"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:backgroundTint="#000000"/>
 
         <ImageView
             android:id="@+id/send"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_send_black_48dp" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icons8_search50" />
 
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerLostFound"
-        android:layout_width="match_parent"
-        android:layout_height="409dp"
+        android:layout_width="347dp"
+        android:layout_height="405dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
 
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
@@ -89,6 +94,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search"
         tools:listitem="@layout/sample_feed_item_layout" />
 
 

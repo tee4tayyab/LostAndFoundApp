@@ -57,6 +57,15 @@ public class Post {
         this.registerId = registerId;
     }
 
+    public Post(Integer postID, Integer postTypeID, String posPicture, String description, Integer categoryID, Integer registerId) {
+        this.postID = postID;
+        this.postTypeID = postTypeID;
+        this.posPicture = posPicture;
+        this.description = description;
+        this.categoryID = categoryID;
+        this.registerId = registerId;
+    }
+
     public Integer getPostID() {
         return postID;
     }

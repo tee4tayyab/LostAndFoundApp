@@ -9,6 +9,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface PostClient {
@@ -19,4 +21,7 @@ public interface PostClient {
 
     @GET("Posts")
     Call<GetPostClass> GetAllPosts();
+
+    @PUT("Post/{PostID}")
+    Call<Post> UpdatePost(@Path("PostID") Integer id, @Body Post post);
 }
