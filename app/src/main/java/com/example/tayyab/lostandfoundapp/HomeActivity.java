@@ -98,7 +98,7 @@ public class HomeActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);*/
 
-/*        sendNetworkRequest();*/
+        sendNetworkRequest();
 
         SampleListData = new ArrayList<>();
 
@@ -149,12 +149,11 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-/*
     private void sendNetworkRequest() {
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.10.19/LostFoundApi/api/")
+                .baseUrl("http://192.168.15.190/LostFoundApi/api/")
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -172,7 +171,7 @@ public class HomeActivity extends AppCompatActivity {
                 Log.d("MTAG", "onFailure: ");
             }
         });
-    }*/
+    }
 
 
 
