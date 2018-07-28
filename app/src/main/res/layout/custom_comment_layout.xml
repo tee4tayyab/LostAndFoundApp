@@ -36,14 +36,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/txtUsername"
         android:layout_marginEnd="13dp"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+        app:srcCompat="@drawable/icons8delete_15"
+        android:background="@color/transparent"/>
 
-    <ImageButton
-        android:id="@+id/btnEdit"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/txtUsername"
-        android:layout_marginEnd="45dp"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
 </RelativeLayout>
