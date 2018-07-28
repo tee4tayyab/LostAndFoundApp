@@ -162,8 +162,13 @@ public class HomeActivity extends AppCompatActivity {
         Call<GetPostClass> call = client.GetAllPosts();
         call.enqueue(new Callback<GetPostClass>() {
             @Override
-            public void onResponse(Call<GetPostClass> call, Response<GetPostClass> response) {
+            public void onResponse(@NonNull Call<GetPostClass> call,@NonNull Response<GetPostClass> response) {
                 Log.d("MTAG", "onResponse: " + response.body().getReg().get(0));
+                int i = 0;
+                while (response.body().getReg().listIterator().hasNext() == false){
+                    Post post = response.body().getReg().get(i);
+
+                }
             }
 
             @Override
@@ -189,7 +194,7 @@ public class HomeActivity extends AppCompatActivity {
         Call<Post> call = client.UpdatePost(id,post);
         call.enqueue(new Callback<Post>() {
             @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
+            public void onResponse(@NonNull Call<Post> call,@NonNull Response<Post> response) {
                 Log.d("MTAG", "onResponse:dsklkdjdhsdhlsdh "+ response.body());
             }
 

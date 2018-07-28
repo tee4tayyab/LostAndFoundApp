@@ -204,7 +204,6 @@ public class AddPost extends AppCompatActivity  {
 
         @Override
         protected void onPostExecute(String s) {
-
             EventBus.getDefault().post(new PostImageEvent(s));
 
         }
