@@ -97,10 +97,8 @@ public class AddPost extends AppCompatActivity  {
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(PostImageText != "") {
                     Post post = new Post(1, PostImageText, "jhdijhdohadfdkjlf", 1, 1028);
                     sendNetworkRequest(post);
-                }
             }
         });
 
@@ -157,7 +155,7 @@ public class AddPost extends AppCompatActivity  {
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.15.170/LostFoundApi/api/")
+                .baseUrl("http://192.168.43.170/LostFoundApi/api/")
                 .addConverterFactory(GsonConverterFactory.create());
         Log.d("MTAG", "sendNetworkRequest: Successful");
 
