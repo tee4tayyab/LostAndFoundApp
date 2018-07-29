@@ -100,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
 
         sendNetworkRequest();
 
-        SampleListData = new ArrayList<>();
+        /*SampleListData = new ArrayList<>();
 
         for (int i = 0; i < 100; i++) {
             SampleListData.add(new Customfeeditem(i, "username " + i, "description http://badboyroy.com/wp-content/uploads/2014/09/image-placeholder-940x470-940x470.jpg" + i, true, "http://badboyroy.com/wp-content/uploads/2014/09/image-placeholder-940x470-940x470.jpg", "http://badboyroy.com/wp-content/uploads/2014/09/image-placeholder-940x470-940x470.jpg"));
@@ -108,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
 
         RecyclerView recyclerLostFound = findViewById(R.id.recyclerLostFound);
 
-        recyclerLostFound.setAdapter(new CustomfeedAdapter(SampleListData));
+        recyclerLostFound.setAdapter(new CustomfeedAdapter(SampleListData));*/
 
 
 /*
@@ -149,11 +149,23 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+/*
+    SampleListData = new ArrayList<>();
+
+        for (int i = 0; i < 100; i++) {
+        SampleListData.add(new Customfeeditem(i, "username " + i, "description http://badboyroy.com/wp-content/uploads/2014/09/image-placeholder-940x470-940x470.jpg" + i, true, "http://badboyroy.com/wp-content/uploads/2014/09/image-placeholder-940x470-940x470.jpg", "http://badboyroy.com/wp-content/uploads/2014/09/image-placeholder-940x470-940x470.jpg"));
+    }
+
+    RecyclerView recyclerLostFound = findViewById(R.id.recyclerLostFound);
+
+        recyclerLostFound.setAdapter(new CustomfeedAdapter(SampleListData));*/
+
+
     private void sendNetworkRequest() {
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.15.190/LostFoundApi/api/")
+                .baseUrl("http://192.168.43.170/LostFoundApi/api/")
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -165,10 +177,15 @@ public class HomeActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<GetPostClass> call,@NonNull Response<GetPostClass> response) {
                 Log.d("MTAG", "onResponse: " + response.body().getReg().get(0));
                 int i = 0;
-                while (response.body().getReg().listIterator().hasNext() == false){
-                    Post post = response.body().getReg().get(i);
+                while (response.body().getReg().listIterator().hasNext() != false){
+                   Post post = response.body().getReg().get(i);
+                   SampleListData = new ArrayList<>();
+                    SampleListData.add(new Customfeeditem(i,post.getUsername().toString(),post.getDescription().toString(),true,post.getPosPicture().toString(),post.getPicture().toString()));
 
                 }
+                RecyclerView recyclerView = findViewById(R.id.recyclerLostFound);
+                recyclerView.setAdapter(new CustomfeedAdapter(SampleListData));
+
             }
 
             @Override

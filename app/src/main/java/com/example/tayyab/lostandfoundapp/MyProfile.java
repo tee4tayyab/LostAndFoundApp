@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tayyab.lostandfoundapp.Event.Event;
+import com.example.tayyab.lostandfoundapp.Event.RegisterEvent;
 import com.example.tayyab.lostandfoundapp.InterfaceService.UserClient;
 import com.example.tayyab.lostandfoundapp.models.User;
 import com.google.gson.Gson;
@@ -220,8 +221,9 @@ public class MyProfile extends AppCompatActivity {
                String picture = u.getPicture();
                setUserProfile(username,picture,u.getEmail());
                Log.d(TAG, "onResponse: ");
+               int registerid = u.getRegisterID();
+               EventBus.getDefault().post(new RegisterEvent(registerid));
            }
-
            @Override
            public void onFailure(Call<List<User>> call, Throwable t) {
                Log.d(TAG, "onFailure: ");

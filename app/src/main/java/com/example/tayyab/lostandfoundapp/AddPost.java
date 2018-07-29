@@ -17,10 +17,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.example.tayyab.lostandfoundapp.Event.Event;
 import com.example.tayyab.lostandfoundapp.Event.PostImageEvent;
+import com.example.tayyab.lostandfoundapp.Event.RegisterEvent;
 import com.example.tayyab.lostandfoundapp.InterfaceService.PostClient;
 import com.example.tayyab.lostandfoundapp.InterfaceService.UserClient;
 import com.example.tayyab.lostandfoundapp.models.Post;
@@ -48,12 +50,18 @@ public class AddPost extends AppCompatActivity  {
     EditText description;
     ImageButton btnImage;
     private String PostImageText;
+    RadioButton losttype,foundtype;
+    int registerID;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(PostImageEvent event){
 
         PostImageText = event.getDecodedText();
 
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRegisterEvent(RegisterEvent registerEvent){
+        registerID = registerEvent.getRegisterID();
     }
     @Override
     public void onStart() {
@@ -71,7 +79,14 @@ public class AddPost extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
-        Spinner spinner = findViewById(R.id.spinner);
+
+        losttype = findViewById(R.id.rbLost);
+        foundtype = findViewById(R.id.rbFound);
+        description = findViewById(R.id.etdescription);
+
+
+
+        final Spinner spinner = findViewById(R.id.spinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category, android.R.layout.simple_spinner_item);
@@ -83,6 +98,7 @@ public class AddPost extends AppCompatActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemSelected: ");
+
                 
             }
 
@@ -97,7 +113,17 @@ public class AddPost extends AppCompatActivity  {
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Post post = new Post(1, PostImageText, "jhdijhdohadfdkjlf", 1, 1028);
+                int posttypeid;
+                if(losttype.isChecked()){
+                    posttypeid = 1;
+                }
+                else if(foundtype.isChecked()){
+                    posttypeid = 2;
+                }
+                else {
+                    posttypeid = 0;
+                }
+                    Post post = new Post(posttypeid, PostImageText, description.getText().toString(), spinner.getSelectedItemPosition(), registerID);
                     sendNetworkRequest(post);
             }
         });
