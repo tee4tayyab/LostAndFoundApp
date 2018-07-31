@@ -23,6 +23,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface UserClient {
 
@@ -32,7 +33,7 @@ public interface UserClient {
     @GET("RegUser")
     Call<List<User>> GetUserDetails(@Query("email") String email);
 
-    @Headers({"Content-Type:application/json","Accept:application/json"})
+    @Headers({"Content-Type:application/json", "Accept:application/json"})
 
 
 /*    @PUT("RegUser/{email}")
@@ -44,10 +45,12 @@ public interface UserClient {
             @Path("RegisterID") Integer id,
             @Body User user);
 
+    @Headers({"Content-Type:application/json", "Accept:application/json"})
+    @POST
+    Call<User> UpdateUserDetail(@Url String url,@Body User user);
+
     @PUT("posts/{id}")
     Call<Dummy> updateDummy(@Path("id") Integer id, @Body Dummy dummy);
-
-
 
 
 }

@@ -44,6 +44,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.example.tayyab.lostandfoundapp.LoginActivity.PREF_ID;
+
 public class MyProfile extends AppCompatActivity {
     private static final int Pick_Image = 100;
     private static final String TAG = "MTAG";
@@ -51,18 +53,22 @@ public class MyProfile extends AppCompatActivity {
     ImageButton imageButton;
     CircleImageView circleImageView;
     Button Edit, Save;
-    EditText FName,EMail;
+    EditText FName, EMail;
     TextView UName;
+    public static String PREF_USERCOMMENT = "";
     String profileimage;
 
-    private String Emailevent,EncodedText;
+    private String Emailevent, EncodedText;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(Event event){
+    public void onMessageEvent(Event event) {
 
         this.EncodedText = event.getDecodedText();
 
     }
+
+    SharedPreferences sharedPreferences;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -74,7 +80,8 @@ public class MyProfile extends AppCompatActivity {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
-    public void getProfileImage(String picture){
+
+    public void getProfileImage(String picture) {
         byte[] decodeimageBytes = Base64.decode(picture, Base64.DEFAULT);
         Bitmap decodedImage = BitmapFactory.decodeByteArray(decodeimageBytes, 0, decodeimageBytes.length);
         circleImageView.setImageBitmap(decodedImage);
@@ -90,15 +97,15 @@ public class MyProfile extends AppCompatActivity {
 
         FName = findViewById(R.id.profile_username);
         UName = findViewById(R.id.profile_fullname);
-
+/*
         User user = new User(1028,"tayyadkjsdhb123","Tayyab","","tayyabrasheed330@gmail.com",1);
 
-        ProfileUpdate(1028,user);
+        ProfileUpdate(1028,user);*/
 
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         Emailevent = sharedPreferences.getString("Email", null);
-        Log.d(TAG, "onCreate: "+Emailevent);
+        Log.d(TAG, "onCreate: " + Emailevent);
         sendNetworkRequest(Emailevent);
 
         EditText editUsername = findViewById(R.id.profile_username);
@@ -139,16 +146,12 @@ public class MyProfile extends AppCompatActivity {
                 editEmail.setEnabled(false);
                 EditText editPhone = findViewById(R.id.profile_phone);
                 editPhone.setEnabled(false);
+                Log.e("TGEF", "das" + sharedPreferences.getString(PREF_ID, ""));
                 EditText editLocation = findViewById(R.id.profile_location);
-                editLocation.setEnabled(false);
-                /*User user = new User("nullnullnull","huvyffgyf","","abcdef",1);
-
-                ProfileUpdate("abcdef",user);*/
+                User user = new User(editUsername.getText().toString(), EncodedText);
+                ProfileUpdate(user);
                 Edit.setVisibility(View.VISIBLE);
                 Save.setVisibility(View.GONE);
-
-
-
 
 
             }
@@ -160,9 +163,6 @@ public class MyProfile extends AppCompatActivity {
                 openGallery();
             }
         });
-
-
-//        ProfileUpdate("email.com", "againchanged");
 
 
     }
@@ -206,87 +206,77 @@ public class MyProfile extends AppCompatActivity {
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.15.190/LostFoundApi/api/")
+                .baseUrl("http://192.168.10.11/LostFoundApi/api/")
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
-        Log.d(TAG, "sendNetworkRequest: "+email);
+        Log.d(TAG, "sendNetworkRequest: " + email);
         UserClient client = retrofit.create(UserClient.class);
-       Call<List<User>> call = client.GetUserDetails(email);
-       call.enqueue(new Callback<List<User>>() {
-           @Override
-           public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-               User u = response.body().get(0);
-               String username = u.getUsername();
-               String picture = u.getPicture();
-               setUserProfile(username,picture,u.getEmail());
-               Log.d(TAG, "onResponse: ");
-               int registerid = u.getRegisterID();
-               EventBus.getDefault().post(new RegisterEvent(registerid));
-           }
-           @Override
-           public void onFailure(Call<List<User>> call, Throwable t) {
-               Log.d(TAG, "onFailure: ");
-           }
-       });
-
-    }
-
-
-    private void ProfileUpdate(Integer id,User user) {
-
-
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.7/LostFoundApi/api/")
-                .addConverterFactory(GsonConverterFactory.create());
-
-        Retrofit retrofit = builder.build();
-
-        Log.d(TAG, "sendNetworkRequest: ");
-        UserClient client = retrofit.create(UserClient.class);
-
-        /*String userjson = "{\n" +
-                "        \n" +
-                "        \"Password\": \"test\",\n" +
-                "        \"Username\": \"testingjson\",\n" +
-                "        \"Picture\": \"\",\n" +
-                "     \n" +
-                "        \"UserID\": 1\n" +
-                "    }";
-
-        userjson = "updated";*/
-
-
-        Call<User> call = client.PutUserDetails(id,user);
-        call.enqueue(new Callback<User>() {
+        Call<List<User>> call = client.GetUserDetails(email);
+        call.enqueue(new Callback<List<User>>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                Log.d(TAG, "onResponse: bjkgkgu ");
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                User u = response.body().get(0);
+                String username = u.getUsername();
+                String picture = u.getPicture();
+                setUserProfile(username, picture, u.getEmail());
+                Log.d(TAG, "onResponse: ");
+                int registerid = u.getRegisterID();
+                EventBus.getDefault().post(new RegisterEvent(registerid));
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(PREF_USERCOMMENT,FName.getText().toString());
+                editor.commit();
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.d(TAG, "onFailure: hjgkhhiyg");
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Log.d(TAG, "onFailure: ");
             }
         });
 
     }
 
 
-    private void setUserProfile(String username,String picture,String Email) {
+    private void ProfileUpdate(User user) {
 
-    FName.setText(username);
-    UName.setText(username);
-    EMail = findViewById(R.id.profile_email);
-    EMail.setText(Email);
-    getProfileImage("");
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.10.11/LostFoundApi/api/RegUser/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        UserClient client = retrofit.create(UserClient.class);
+        Call<User> call = client.UpdateUserDetail(String.valueOf(sharedPreferences.getString(PREF_ID, "")), user);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                Log.d(TAG, "onResponse: " + response.isSuccessful());
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d(TAG, "onFailure: ");
+            }
+        });
+
+    }
+
+
+    private void setUserProfile(String username, String picture, String Email) {
+
+        FName.setText(username);
+        UName.setText(username);
+        EMail = findViewById(R.id.profile_email);
+        EMail.setText(Email);
+        getProfileImage("");
 
     }
 
 
     //AsyncTask For Profile Picture
 
-    public class ProfileAsynctask extends AsyncTask<Bitmap,Void,String> {
+    public class ProfileAsynctask extends AsyncTask<Bitmap, Void, String> {
 
         String text;
         Bitmap bitmap;
@@ -312,8 +302,6 @@ public class MyProfile extends AppCompatActivity {
 
         }
     }
-
-
 
 
 }

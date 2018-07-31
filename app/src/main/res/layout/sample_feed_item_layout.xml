@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/card"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -65,18 +66,5 @@
         app:layout_constraintStart_toEndOf="@+id/imgSampleProfileImage"
         app:layout_constraintTop_toBottomOf="@+id/txt_ProfileName" />
 
-    <ImageButton
-        android:id="@+id/btndeletepost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/txtDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.186"
-        app:srcCompat="@drawable/icons8delete_15" />
 
 </android.support.constraint.ConstraintLayout>

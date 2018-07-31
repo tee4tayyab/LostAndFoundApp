@@ -1,6 +1,11 @@
 package com.example.tayyab.lostandfoundapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -9,13 +14,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.tayyab.lostandfoundapp.Event.PostImageEvent;
 import com.example.tayyab.lostandfoundapp.InterfaceService.UserClient;
 import com.example.tayyab.lostandfoundapp.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +33,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import okhttp3.FormBody;
@@ -47,8 +61,17 @@ public class RegisterActivity extends AppCompatActivity {
     EditText edtEmail, edtPassword, edtUserName, edtName,edtPhone;
     Button Register;
     public Boolean verify;
+    ImageButton profilepicture;
+    String imageString;
 
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword, inputlayoutusername,inputLayoutPhone;
+    final private static int Pick_Image = 100;
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(PostImageEvent event){
+        this.imageString = event.getDecodedText();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +79,13 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
 
-
+        profilepicture = findViewById(R.id.pictureprofile);
+        profilepicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
 
 
 
@@ -86,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
               createAccount(edtEmail.getText().toString(), edtPassword.getText().toString());
 
-                User user = new User(edtPassword.getText().toString(),edtUserName.getText().toString(),"",edtEmail.getText().toString(),1);
+                User user = new User(edtPassword.getText().toString(),edtUserName.getText().toString(),imageString,edtEmail.getText().toString(),1);
 
                 sendNetworkRequest(user);
 
@@ -357,6 +386,65 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void openGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, Pick_Image);
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == Pick_Image) {
+
+            Uri imageUri = data.getData();
+            /*imageButton.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            imageButton.setImageResource(R.drawable.circle);*/
+            // imageButton.setImageURI(imageUri);
+
+//circleImageView.setImageResource(R.drawable.circle);
+            //  circleImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            Bitmap bitmap = null;
+            try {
+                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                new ProfileImage().execute(bitmap);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+
+    public class ProfileImage extends AsyncTask<Bitmap, Void, String> {
+
+        String text;
+        Bitmap bitmap;
+
+        @Override
+        protected String doInBackground(Bitmap... bitmaps) {
+            this.bitmap = bitmaps[0];
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            onPostExecute(imageString);
+            return imageString;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            EventBus.getDefault().post(new PostImageEvent(s));
+
+        }
     }
 
 

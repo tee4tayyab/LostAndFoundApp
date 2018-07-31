@@ -3,7 +3,7 @@ package com.example.tayyab.lostandfoundapp.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Comments {
+public class  Comments {
 
     @SerializedName("CommentID")
     @Expose

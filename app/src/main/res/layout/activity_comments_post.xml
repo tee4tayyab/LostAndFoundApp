@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -40,7 +40,6 @@
             android:textSize="12sp" />
 
     </android.support.v7.widget.Toolbar>
-
 
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -79,9 +78,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textColor="#000000"
             android:contentDescription="Sample Description  Sample Desctin"
             android:text="I have Lost My Bag, Picture of Bag is given below !"
+            android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.025"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,11 +111,11 @@
     </android.support.constraint.ConstraintLayout>
 
     <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
-        android:id="@+id/divider"
-        android:background="#000000"
-        android:layout_weight="0"/>
+        android:layout_weight="0"
+        android:background="#000000" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
@@ -127,43 +126,42 @@
         tools:listitem="@layout/custom_comment_layout" />
 
     <View
+        android:id="@+id/divider2"
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
-        android:id="@+id/divider2"
-        android:background="#000000"
-        android:layout_weight="0"/>
+        android:layout_weight="0"
+        android:background="#000000" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_weight="0"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:id="@+id/commenttext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
             android:background="@drawable/et_bg"
-            android:paddingLeft="16dp"
-            android:textSize="16sp"
-            android:maxLines="4"
-            android:inputType="textMultiLine"
-            android:editable="false"
             android:hint="Comment here"
-            />
+            android:inputType="textMultiLine"
+            android:maxLines="4"
+            android:paddingLeft="16dp"
+            android:textSize="16sp" />
 
         <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+
             android:id="@+id/send"
-            android:background="@color/transparent"
-            android:text="Send"
-            android:textSize="10sp"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
             android:fontFamily="sans-serif"
-            android:textColor="@color/colorPrimaryDark"
-            />
+            android:text="Send"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
 
     </LinearLayout>
 

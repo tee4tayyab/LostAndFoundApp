@@ -2,8 +2,11 @@ package com.example.tayyab.lostandfoundapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +32,6 @@ public class CustomfeedAdapter extends RecyclerView.Adapter<CustomfeedAdapter.Sa
     @NonNull
     @Override
     public SampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sample_feed_item_layout, parent, false);
         SampleViewHolder sampleViewHolder = new SampleViewHolder(view);
         return sampleViewHolder;
@@ -43,25 +45,18 @@ public class CustomfeedAdapter extends RecyclerView.Adapter<CustomfeedAdapter.Sa
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent intent = new Intent(context,CommentsPost.class);
+                Intent intent = new Intent(context, CommentsPost.class);
                 context.startActivity(intent);
             }
         });
+/*        byte[] decodeimageBytes = Base64.decode(model.getUserImageUrl(), Base64.DEFAULT);
+        Bitmap decodedImageUser = BitmapFactory.decodeByteArray(decodeimageBytes, 0, decodeimageBytes.length);
+        byte[] decodeimageBytes1 = Base64.decode(model.getPostImageUrl(), Base64.DEFAULT);
+        Bitmap decodedImagePost = BitmapFactory.decodeByteArray(decodeimageBytes1, 0, decodeimageBytes.length);*/
 
         // holder.txtUsername.setText("asd");
         //    holder.txtDescription.setText("asdsadsa");
-
-        holder.txtUsername.setText(model.getUsername());
-        holder.txtDescription.setText(model.getDescription());
-
-        Picasso.get().load(model.getPostImageUrl()).into(holder.imgviewPostImageUrl);
-        Picasso.get().load(model.getPostImageUrl()).into(holder.imgviewUserImageUrl);
-
-        // it can be set using picasso
-        //holder.imgviewPostImageUrl
-
     }
-
 
     @Override
     public int getItemCount() {

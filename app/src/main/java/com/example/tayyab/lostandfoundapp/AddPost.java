@@ -1,6 +1,8 @@
 package com.example.tayyab.lostandfoundapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -41,28 +43,32 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AddPost extends AppCompatActivity  {
+import static com.example.tayyab.lostandfoundapp.LoginActivity.PREF_ID;
+
+public class AddPost extends AppCompatActivity {
 
     private static final String TAG = "MTAG";
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
     private static final int Pick_Image = 100;
     Uri imageUri;
     Button addPost;
     EditText description;
     ImageButton btnImage;
     private String PostImageText;
-    RadioButton losttype,foundtype;
-    int registerID;
+    RadioButton losttype, foundtype;
+    String registerID;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(PostImageEvent event){
+    public void onMessageEvent(PostImageEvent event) {
 
         PostImageText = event.getDecodedText();
 
     }
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRegisterEvent(RegisterEvent registerEvent){
-        registerID = registerEvent.getRegisterID();
-    }
+
+    /*    @Subscribe(threadMode = ThreadMode.MAIN)
+        public void onRegisterEvent(RegisterEvent event){
+            this.registerID = event.getRegisterID();
+        }*/
     @Override
     public void onStart() {
         super.onStart();
@@ -85,21 +91,17 @@ public class AddPost extends AppCompatActivity  {
         description = findViewById(R.id.etdescription);
 
 
-
         final Spinner spinner = findViewById(R.id.spinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemSelected: ");
 
-                
+
             }
 
             @Override
@@ -109,26 +111,25 @@ public class AddPost extends AppCompatActivity  {
         });
         description = findViewById(R.id.etdescription);
 
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
+        registerID = preferences.getString(PREF_ID, "");
+
         addPost = findViewById(R.id.btnPost);
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int posttypeid;
-                if(losttype.isChecked()){
+                if (losttype.isChecked()) {
                     posttypeid = 1;
-                }
-                else if(foundtype.isChecked()){
+                } else if (foundtype.isChecked()) {
                     posttypeid = 2;
-                }
-                else {
+                } else {
                     posttypeid = 0;
                 }
-                    Post post = new Post(posttypeid, PostImageText, description.getText().toString(), spinner.getSelectedItemPosition(), registerID);
-                    sendNetworkRequest(post);
+                Post post = new Post(posttypeid, PostImageText, description.getText().toString(), spinner.getSelectedItemPosition(), Integer.valueOf(registerID));
+                sendNetworkRequest(post);
             }
         });
-
-
 
 
         btnImage = findViewById(R.id.btnInsertImage);
@@ -172,7 +173,7 @@ public class AddPost extends AppCompatActivity  {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
+            btnImage.setImageBitmap(bitmap);
 
         }
     }
@@ -181,7 +182,7 @@ public class AddPost extends AppCompatActivity  {
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.43.170/LostFoundApi/api/")
+                .baseUrl("http://192.168.1.19/LostFoundApi/api/")
                 .addConverterFactory(GsonConverterFactory.create());
         Log.d("MTAG", "sendNetworkRequest: Successful");
 
@@ -206,8 +207,7 @@ public class AddPost extends AppCompatActivity  {
     }
 
 
-
-    public class PostImageAsynctask extends AsyncTask<Bitmap,Void,String> {
+    public class PostImageAsynctask extends AsyncTask<Bitmap, Void, String> {
 
         String text;
         Bitmap bitmap;
@@ -232,9 +232,6 @@ public class AddPost extends AppCompatActivity  {
 
         }
     }
-
-
-
 
 
 }
